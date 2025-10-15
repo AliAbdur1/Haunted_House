@@ -62,6 +62,41 @@ function House() {
     roof.position.y = 2.5 + 0.5 // this moves the odject up
     roof.rotation.y = Math.PI * 0.25 // orients roof properly
     house.add(roof)
+
+    // Door
+    const door = new  THREE.Mesh(
+      new THREE.PlaneGeometry(1.2, 2.2,),
+      new THREE.MeshStandardMaterial({
+        color: '#a15555',
+      })
+    )
+    door.position.y = 1
+    door.position.z = 2 + 0.1
+    house.add(door)
+
+    // Bushes
+    const bushGeometry = new THREE.SphereGeometry(1, 16, 16)
+    const bushMaterial = new THREE.MeshStandardMaterial()
+
+    const bush1 = new THREE.Mesh(bushGeometry, bushMaterial)
+    bush1.scale.set(0.5, 0.5, 0.5)
+    bush1.position.set(1.3, 0.2, 2.2)
+    
+    const bush2 = new THREE.Mesh(bushGeometry, bushMaterial)
+    bush2.scale.set(0.25, 0.25, 0.25)
+    bush2.position.set(1.8, 0.1, 2.4)
+
+    const bush3 = new THREE.Mesh(bushGeometry, bushMaterial)
+    bush3.scale.set(0.25, 0.25, 0.25)
+    bush3.position.set(-1.8, 0.1, 2.4)
+
+    const bush4 = new THREE.Mesh(bushGeometry, bushMaterial)
+    bush4.scale.set(0.5, 0.5, 0.5)
+    bush4.position.set(-1.2, 0.1, 3.4)
+
+    house.add(bush1, bush2, bush3, bush4)
+
+
     /**
     * Lights
     */
