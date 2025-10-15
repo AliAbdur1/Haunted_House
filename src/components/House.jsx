@@ -32,11 +32,36 @@ function House() {
     const scene = new THREE.Scene();
 
     // Temporary sphere
-    const sphere = new THREE.Mesh(
-        new THREE.SphereGeometry(1, 32, 32),
-        new THREE.MeshStandardMaterial({ roughness: 0.7 })
+   
+
+    //Floor
+    const floor =new THREE.Mesh(
+      new THREE.PlaneGeometry(20, 20),
+      new THREE.MeshStandardMaterial()
     )
-    scene.add(sphere)
+    floor.rotation.x = -Math.PI * 0.5
+    scene.add(floor)
+
+    // house container
+    const house = new THREE.Group()
+    scene.add(house)
+
+    //Walls
+    const walls = new THREE.Mesh(
+      new THREE.BoxGeometry(4, 2.5, 4),
+      new THREE.MeshStandardMaterial()
+    )
+    walls.position.y += 1.25
+    house.add(walls) // add to the GROUP not the scene
+
+    //Roof
+    const roof = new THREE.Mesh(
+      new THREE.ConeGeometry(3.5, 1, 4), // radius, height, segments
+      new THREE.MeshStandardMaterial()
+    )
+    roof.position.y = 2.5 + 0.5 // this moves the odject up
+    roof.rotation.y = Math.PI * 0.25 // orients roof properly
+    house.add(roof)
     /**
     * Lights
     */
@@ -54,12 +79,15 @@ function House() {
       75,
       sizes.width / sizes.height,
       0.1,
-      1000
+      100
     );
-    camera.position.z = 3;
+    camera.position.x = 4;
+    camera.position.y = 2
+    camera.position.z = 5;
     scene.add(camera);
 
     
+
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -112,9 +140,7 @@ function House() {
     const tick = () => {
       const elapsedTime = clock.getElapsedTime();
 
-      // Example animation
-    //   cube.rotation.y = elapsedTime;
-    //   cube.rotation.x = elapsedTime * 0.5;
+      
 
       controls.update();
       renderer.render(scene, camera);
