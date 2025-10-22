@@ -96,6 +96,28 @@ function House() {
 
     house.add(bush1, bush2, bush3, bush4)
 
+    // Graves
+    const gravegeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2)
+    const graveMaterial = new THREE.MeshStandardMaterial()
+
+    const graves = new THREE.Group()
+    scene.add(graves)
+
+    for(let i = 0; i < 30; i++) {
+      const angle = Math.random() * Math.PI * 2 // random angle in radians. * 2 for full circle
+      const radius = 5 + Math.random() * 4
+      const graveX = Math.sin(angle) * radius
+      const graveZ = Math.cos(angle) * radius
+      const grave = new THREE.Mesh(gravegeometry, graveMaterial)
+      grave.position.x = graveX
+      grave.position.y = Math.random() * 0.4 // this is 0.4 because the graves are 0.8 tall
+      grave.position.z = graveZ
+      grave.rotation.x = (Math.random() - 0.5) * 0.4 // to multiply by 0.4 makes the effect less extreme
+      grave.rotation.y = (Math.random() - 0.5) * 0.4
+      grave.rotation.z = (Math.random() - 0.5) * 0.4
+      graves.add(grave)
+    }
+
 
     /**
     * Lights
