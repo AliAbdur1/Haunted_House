@@ -31,13 +31,54 @@ function House() {
     // Scene
     const scene = new THREE.Scene();
 
-    // Temporary sphere
+    // Textures
+    const textureLoader = new THREE.TextureLoader();
+
+    //floor texture
+
+    const floorAlphaTexture = textureLoader.load('/static/floor/alpha.jpg')
+    const floorColorTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg')
+    const floorArmTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.jpg')
+    const floorNormalTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.jpg')
+    const floorDisplacementTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.webp')
+
+    floorColorTexture.colorSpace = THREE.SRGBColorSpace
+
+    // makes textures reapeat
+    floorColorTexture.repeat.set(8, 8)
+    floorColorTexture.wrapS = THREE.RepeatWrapping
+    floorColorTexture.wrapT = THREE.RepeatWrapping
+
+    floorArmTexture.repeat.set(8, 8)
+    floorArmTexture.wrapS = THREE.RepeatWrapping
+    floorArmTexture.wrapT = THREE.RepeatWrapping
+
+    floorNormalTexture.repeat.set(8, 8)
+    floorNormalTexture.wrapS = THREE.RepeatWrapping
+    floorNormalTexture.wrapT = THREE.RepeatWrapping
+
+    floorDisplacementTexture.repeat.set(8, 8)
+    floorDisplacementTexture.wrapS = THREE.RepeatWrapping
+    floorDisplacementTexture.wrapT = THREE.RepeatWrapping
+
    
 
     //Floor
     const floor =new THREE.Mesh(
-      new THREE.PlaneGeometry(20, 20),
-      new THREE.MeshStandardMaterial()
+      new THREE.PlaneGeometry(20, 20, 100, 100),
+      new THREE.MeshStandardMaterial({
+        alphaMap: floorAlphaTexture,
+        transparent: true,
+        map: floorColorTexture,
+        aoMap: floorArmTexture,
+        roughnessMap: floorArmTexture,
+        metalnessMap: floorArmTexture,
+        normalMap: floorNormalTexture,
+        displacementMap: floorDisplacementTexture,
+        displacementScale: 0.3,
+        displacementBias: -0.2
+        
+      })
     )
     floor.rotation.x = -Math.PI * 0.5
     scene.add(floor)
@@ -46,10 +87,23 @@ function House() {
     const house = new THREE.Group()
     scene.add(house)
 
+    // Wall Textures
+    const wallColorTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.jpg')
+    const wallNormalTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.jpg')
+    const wallArmTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.jpg')
+
+    wallColorTexture.colorSpace = THREE.SRGBColorSpace
+
     //Walls
     const walls = new THREE.Mesh(
       new THREE.BoxGeometry(4, 2.5, 4),
-      new THREE.MeshStandardMaterial()
+      new THREE.MeshStandardMaterial({
+        map: wallColorTexture,
+        aoMap: wallArmTexture,
+        roughnessMap: wallArmTexture,
+        metalnessMap: wallArmTexture,
+        normalMap: wallNormalTexture
+      })
     )
     walls.position.y += 1.25
     house.add(walls) // add to the GROUP not the scene
