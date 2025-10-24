@@ -272,13 +272,25 @@ function House() {
     * Lights
     */
     // Ambient light
-    const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
+    const ambientLight = new THREE.AmbientLight('#86cdff', 0.275)
     scene.add(ambientLight)
 
     // Directional light
-    const directionalLight = new THREE.DirectionalLight('#ffffff', 1.5)
+    const directionalLight = new THREE.DirectionalLight('#86cdff', 1)
     directionalLight.position.set(3, 2, -8)
     scene.add(directionalLight)
+
+    // Door light
+    const doorlight = new THREE.PointLight('#ff7d00', 1, 7)
+    doorlight.position.set(0, 2.2, 2.7)
+    house.add(doorlight)
+
+    // Ghosts
+    const ghost1 = new THREE.PointLight('#8800ff', 2, 3)
+    const ghost2 = new THREE.PointLight('#ff0088', 2, 3)
+    const ghost3 = new THREE.PointLight('#ff000', 2, 3)
+
+    scene.add(ghost1, ghost2, ghost3)
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -345,6 +357,12 @@ function House() {
     const clock = new THREE.Clock();
     const tick = () => {
       const elapsedTime = clock.getElapsedTime();
+
+      // Ghost movement
+      const ghostangle = elapsedTime * 0.5 // slow down the movement
+      ghost1.position.x = Math.cos(ghostangle) * 4
+      ghost1.position.z = Math.sin(ghostangle) * 4
+      ghost1.position.y = Math.sin(elapsedTime * 3) // up and down movement
 
       
 
