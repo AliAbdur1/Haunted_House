@@ -267,46 +267,71 @@ function House() {
       graves.add(grave)
     }
 
-
+    
     /**
-    * Lights
+     * Lights
     */
-    // Ambient light
-    const ambientLight = new THREE.AmbientLight('#86cdff', 0.275)
-    scene.add(ambientLight)
+   // Ambient light
+   const ambientLight = new THREE.AmbientLight('#86cdff', 0.275)
+   scene.add(ambientLight)
+   
+   // Directional light
+   const directionalLight = new THREE.DirectionalLight('#86cdff', 1)
+   directionalLight.position.set(3, 2, -8)
+   scene.add(directionalLight)
+   
+   // Door light
+   const doorlight = new THREE.PointLight('#ff7d00', 1, 7)
+   doorlight.position.set(0, 2.2, 2.7)
+   house.add(doorlight)
+   
+   // Ghosts
+   const ghost1 = new THREE.PointLight('#8800ff', 2, 3)
+   const ghost2 = new THREE.PointLight('#ff0088', 2, 3)
+   const ghost3 = new THREE.PointLight('#ffcc00', 1, 2)
+   
+   scene.add(ghost1, ghost2, ghost3)
 
-    // Directional light
-    const directionalLight = new THREE.DirectionalLight('#86cdff', 1)
-    directionalLight.position.set(3, 2, -8)
-    scene.add(directionalLight)
+   // Mapping
+   directionalLight.shadow.mapSize.width = 256
+   directionalLight.shadow.mapSize.height = 256 // better for performance
 
-    // Door light
-    const doorlight = new THREE.PointLight('#ff7d00', 1, 7)
-    doorlight.position.set(0, 2.2, 2.7)
-    house.add(doorlight)
+   directionalLight.shadow.camera.top = 8 // must be positive
+   directionalLight.shadow.camera.right = 8 // must be positive
+   directionalLight.shadow.camera.bottom = -8 // must be negative
+   directionalLight.shadow.camera.left = -8 // must be negative
+   directionalLight.shadow.camera.far = 20
+   directionalLight.shadow.camera.near = 1
 
-    // Ghosts
-    const ghost1 = new THREE.PointLight('#8800ff', 2, 3)
-    const ghost2 = new THREE.PointLight('#ff0088', 2, 3)
-    const ghost3 = new THREE.PointLight('#ff000', 2, 3)
+   ghost1.shadow.mapSize.width = 256
+   ghost1.shadow.mapSize.height = 256 
+   ghost1.shadow.camera.far = 10
 
-    scene.add(ghost1, ghost2, ghost3)
+   ghost2.shadow.mapSize.width = 256
+   ghost2.shadow.mapSize.height = 256 
+   ghost2.shadow.camera.far = 10
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      sizes.width / sizes.height,
-      0.1,
-      100
+   ghost3.shadow.mapSize.width = 256
+   ghost3.shadow.mapSize.height = 256 
+   ghost3.shadow.camera.far = 10
+
+
+   
+   // Camera
+   const camera = new THREE.PerspectiveCamera(
+     75,
+     sizes.width / sizes.height,
+     0.1,
+     100
     );
     camera.position.x = 4;
     camera.position.y = 2
     camera.position.z = 5;
     scene.add(camera);
-
     
-
-
+    
+    
+    
     // Renderer
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current
@@ -314,6 +339,34 @@ function House() {
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 1);
+
+    /**
+     * Shadows
+     */
+ 
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    //Cast and recieve
+    directionalLight.castShadow = true
+    ghost1.castShadow = true
+    ghost2.castShadow = true
+    ghost3.castShadow = true
+    // mesh shadows
+    walls.castShadow = true
+    walls.receiveShadow = true
+
+    for(const grave of graves.children) {
+      grave.castShadow = true
+      grave.receiveShadow = true
+    } // this must be a loop because graves is a group
+
+    roof.castShadow = true
+    floor.receiveShadow = true
+
+    
+    // would use door light shadow but is not nessary
+    
+
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -359,10 +412,20 @@ function House() {
       const elapsedTime = clock.getElapsedTime();
 
       // Ghost movement
-      const ghostangle = elapsedTime * 0.5 // slow down the movement
-      ghost1.position.x = Math.cos(ghostangle) * 4
-      ghost1.position.z = Math.sin(ghostangle) * 4
-      ghost1.position.y = Math.sin(elapsedTime * 3) // up and down movement
+      const ghost1angle = elapsedTime * 0.5 // slow down the movement
+      ghost1.position.x = Math.cos(ghost1angle) * 4
+      ghost1.position.z = Math.sin(ghost1angle) * 4
+      ghost1.position.y = Math.sin(ghost1angle) * Math.sin(ghost1angle * 2.34) * Math.sin(ghost1angle * 3.45)// up and down movement
+
+      const ghost2angle = -elapsedTime * 0.28 // slow down the movement
+      ghost2.position.x = Math.cos(ghost2angle) * 5
+      ghost2.position.z = Math.sin(ghost2angle) * 5.3
+      ghost2.position.y = Math.sin(ghost2angle) * Math.sin(ghost2angle * 2.34) * Math.sin(ghost2angle * 3.45)
+
+      const ghost3angle = -elapsedTime * 0.48 // slow down the movement
+      ghost3.position.x = Math.cos(ghost3angle) * 3
+      ghost3.position.z = Math.sin(ghost3angle) * 6.2
+      ghost3.position.y = Math.sin(ghost3angle) * Math.sin(ghost3angle * 4.34) * Math.sin(ghost3angle * 2.45)
 
       
 
