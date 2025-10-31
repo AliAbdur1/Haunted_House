@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from 'react'
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { Sky } from 'three/addons/objects/Sky.js';
 import GUI from 'lil-gui';
+
+
 
 const sizes = {
   width: window.innerWidth,
@@ -36,10 +39,10 @@ function House() {
 
     //floor texture
 
-    const floorAlphaTexture = textureLoader.load('/static/floor/alpha.jpg')
-    const floorColorTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg')
-    const floorArmTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.jpg')
-    const floorNormalTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.jpg')
+    const floorAlphaTexture = textureLoader.load('/static/floor/alpha.webp')
+    const floorColorTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp')
+    const floorArmTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp')
+    const floorNormalTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.webp')
     const floorDisplacementTexture = textureLoader.load('/static/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.webp')
 
     floorColorTexture.colorSpace = THREE.SRGBColorSpace
@@ -88,9 +91,9 @@ function House() {
     scene.add(house)
 
     // Wall Textures
-    const wallColorTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.jpg')
-    const wallNormalTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.jpg')
-    const wallArmTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.jpg')
+    const wallColorTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_diff_1k.webp')
+    const wallNormalTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_nor_gl_1k.webp')
+    const wallArmTexture = textureLoader.load('/static/wall/castle_brick_broken_06_1k/castle_brick_broken_06_arm_1k.webp')
 
     wallColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -112,9 +115,9 @@ function House() {
     house.add(walls) // add to the GROUP not the scene
 
     //Roof
-    const roofColorTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_diff_1k.jpg')
-    const roofNormalTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.jpg')
-    const roofArmTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_arm_1k.jpg')
+    const roofColorTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_diff_1k.webp')
+    const roofNormalTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_nor_gl_1k.webp')
+    const roofArmTexture = textureLoader.load('/static/roof/roof_slates_02_1k/roof_slates_02_arm_1k.webp')
 
     roofColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -143,13 +146,13 @@ function House() {
 
     // Door
 
-    const doorColorTexture = textureLoader.load('/static/door/color.jpg')
-    const doorNormalTexture = textureLoader.load('/static/door/normal.jpg')
-    const doorAlphaTexture = textureLoader.load('/static/door/alpha.jpg')
-    const doorAmbientTexture = textureLoader.load('/static/door/ambientOcclusion.jpg')
-    const doorHeightTexture = textureLoader.load('/static/door/height.jpg')
-    const doorMetalnessTexture = textureLoader.load('/static/door/metalness.jpg')
-    const doorRoughnessTexture = textureLoader.load('/static/door/roughness.jpg')
+    const doorColorTexture = textureLoader.load('/static/door/color.webp')
+    const doorNormalTexture = textureLoader.load('/static/door/normal.webp')
+    const doorAlphaTexture = textureLoader.load('/static/door/alpha.webp')
+    const doorAmbientTexture = textureLoader.load('/static/door/ambientOcclusion.webp')
+    const doorHeightTexture = textureLoader.load('/static/door/height.webp')
+    const doorMetalnessTexture = textureLoader.load('/static/door/metalness.webp')
+    const doorRoughnessTexture = textureLoader.load('/static/door/roughness.webp')
 
     doorColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -180,9 +183,9 @@ function House() {
     house.add(door)
 
     // Bushes
-    const bushColorTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.jpg')
-    const bushNormalTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.jpg')
-    const bushArmTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.jpg')
+    const bushColorTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_diff_1k.webp')
+    const bushNormalTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_nor_gl_1k.webp')
+    const bushArmTexture = textureLoader.load('/static/bush/leaves_forest_ground_1k/leaves_forest_ground_arm_1k.webp')
 
     bushColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -228,9 +231,9 @@ function House() {
     house.add(bush1, bush2, bush3, bush4)
 
     // Graves
-    const gravesColorTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.jpg')
-    const gravesNormalTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.jpg')
-    const gravesArmTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.jpg')
+    const gravesColorTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_diff_1k.webp')
+    const gravesNormalTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_nor_gl_1k.webp')
+    const gravesArmTexture = textureLoader.load('/static/grave/plastered_stone_wall_1k/plastered_stone_wall_arm_1k.webp')
 
     gravesColorTexture.colorSpace = THREE.SRGBColorSpace
 
@@ -315,8 +318,20 @@ function House() {
    ghost3.shadow.mapSize.height = 256 
    ghost3.shadow.camera.far = 10
 
+   const sky = new Sky()
+   sky.scale.set(100, 100, 100)
+   scene.add(sky)
 
+   sky.material.uniforms['turbidity'].value = 10
+   sky.material.uniforms['rayleigh'].value = 3
+   sky.material.uniforms['mieCoefficient'].value = 0.1
+   sky.material.uniforms['mieDirectionalG'].value = 0.95
+   sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95)
    
+
+   //Fog
+   scene.fog = new THREE.Fog('#262837', 0.1)
+  //  scene.fog = new THREE.Fog('#262837', 0.1)
    // Camera
    const camera = new THREE.PerspectiveCamera(
      75,
